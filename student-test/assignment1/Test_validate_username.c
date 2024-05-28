@@ -1,8 +1,10 @@
 #include "unity.h"
 #include <stdbool.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "../../examples/autotest-validate/autotest-validate.h"
 #include "../../assignment-autotest/test/assignment1/username-from-conf-file.h"
+
 
 /**
 * This function should:
@@ -18,5 +20,21 @@ void test_validate_my_username()
      * TODO: Replace the line below with your code here as described above to verify your /conf/username.txt 
      * config file and my_username() functions are setup properly
      */
-    TEST_ASSERT_TRUE_MESSAGE(false,"AESD students, please fix me!");
+
+    /* Print the value from my_username */
+    const char *hardcoded_username;
+    const char *username_from_conf;
+
+    hardcoded_username = my_username();
+
+    printf("\n This the hardcoded value : %s \n",hardcoded_username);
+
+    /* Print the value from /conf/username.txt */
+    username_from_conf = malloc_username_from_conf_file();
+
+    printf("\n This the username from conf value : %s \n",username_from_conf);
+
+    /* Verify that they are equals */
+    TEST_ASSERT_EQUAL_STRING_MESSAGE(hardcoded_username,username_from_conf,"The TEST is NOT OK, the strings are different");
+
 }
