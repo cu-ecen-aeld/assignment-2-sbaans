@@ -1,5 +1,5 @@
 #!/bin/sh
-# Writer script for assignment 1 : it will a string to a file
+# Writer script for assignment 1 : it will write a string to a file
 # Author: sbaans
 
 # Test if there are exactly 2 paramters
