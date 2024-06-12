@@ -16,6 +16,7 @@
 int main(int argc, char *argv[])
 {
 	FILE *filetobewritten;
+	int returnvalue;
 
 	/* Activate syslog */
 	openlog(NULL,0,LOG_USER);
@@ -36,8 +37,21 @@ int main(int argc, char *argv[])
 	filetobewritten = fopen(argv[1], "wa");
 	if (filetobewritten != NULL)
 	{
-		fputs(argv[2], filetobewritten);
-		fclose(filetobewritten);
+		returnvalue = fputs(argv[2], filetobewritten);
+		if (returnvalue == EOF)
+		{
+			printf("Error, Unable to write File");
+			syslog(LOG_ERR,"Unable to write File %s", argv[1]);
+			return 1;
+		}
+
+		returnvalue = fclose(filetobewritten);
+		if (returnvalue == EOF)
+		{
+			printf("Error, Unable to close File");
+			syslog(LOG_ERR,"Unable to close File %s", argv[1]);
+			return 1;
+		}
 		printf("Writing %s to %s",argv[2],argv[1]);
 		syslog(LOG_DEBUG,"Writing %s to %s",argv[2],argv[1]);
 	}
@@ -45,6 +59,7 @@ int main(int argc, char *argv[])
 	{
 		printf("Error, Unable to open File");
 		syslog(LOG_ERR,"Unable to open File %s", argv[1]);
+		return 1;
 	}
 	return 0;
 }
